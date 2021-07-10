@@ -44,9 +44,13 @@ namespace TT_Education_webAPI.API.Controllers
                 }
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_config["SecurityKey"]);
+                if (key == null)
+                {
+                    throw new Exception("Can't get SecurityKey");
+                }
                 var tokenDescriptor = new SecurityTokenDescriptor
                 { 
-                    Issuer = _config["Config: ValidIssuer"],
+                    Issuer = _config["Config:ValidIssuer"],
                     Subject = new ClaimsIdentity(
                         new Claim[] { 
                             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.ToString()),
@@ -63,7 +67,7 @@ namespace TT_Education_webAPI.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(new { message = ex.Message    }   );
+                return BadRequest(new { message = ex.Message });
             }
         }
 

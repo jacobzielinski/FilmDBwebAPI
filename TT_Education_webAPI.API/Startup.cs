@@ -23,6 +23,7 @@ namespace TT_Education_webAPI.API
         private string _securityKey = null;
         private string _validIssuer = null;
         private string _validAudience = null;
+        private string _connectionString = null;
 
 
 
@@ -40,6 +41,8 @@ namespace TT_Education_webAPI.API
             _securityKey = Configuration["SecurityKey"];
             _validIssuer = Configuration["ValidIssuer"];
             _validAudience = Configuration["ValidAudience"];
+            _validAudience = Configuration["ConnectionString"];
+
 
             services.Configure<Config>(Configuration);
 
@@ -51,7 +54,9 @@ namespace TT_Education_webAPI.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TT_Education_webAPI.API", Version = "v1" });
             });
 
-            services.AddDbContext<DbFilmsContext>(options => options.UseSqlServer("Server=tcp:webapijz.database.windows.net,1433;Initial Catalog=Web_Api_DB;Persist Security Info=False;User ID=jz;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+            var connectionString = $"Server=tcp:webapijz.database.windows.net,1433;Initial Catalog=Web_Api_DB;Persist Security Info=False;User ID=jz;Password={_connectionString};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+
+            services.AddDbContext<DbFilmsContext>(options => options.UseSqlServer(connectionString));
             //services.AddDbContext<DbFilmsContext>(options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=FilmDB;Trusted_Connection=True;"));
 
             services.AddAuthentication().AddJwtBearer(cfg =>

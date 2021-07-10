@@ -80,7 +80,7 @@ namespace TT_Education_webAPI.API.Controllers
             {
                 Id = _config["Id"],
                 Email = _config["Email"],
-                UserName = _config["UserName"]
+                UserName = _config["User_Name"]
             };
         }
     }

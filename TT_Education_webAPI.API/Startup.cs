@@ -41,7 +41,7 @@ namespace TT_Education_webAPI.API
             _securityKey = Configuration["SecurityKey"];
             _validIssuer = Configuration["ValidIssuer"];
             _validAudience = Configuration["ValidAudience"];
-            _validAudience = Configuration["ConnectionString"];
+            _connectionString = Configuration["ConnectionString"];
 
 
             services.Configure<Config>(Configuration);

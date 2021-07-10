@@ -44,10 +44,6 @@ namespace TT_Education_webAPI.API.Controllers
                 }
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_config["SecurityKey"]);
-                if (key == null)
-                {
-                    throw new Exception("Can't get SecurityKey");
-                }
                 var tokenDescriptor = new SecurityTokenDescriptor
                 { 
                     Issuer = _config["Config:ValidIssuer"],
@@ -67,7 +63,7 @@ namespace TT_Education_webAPI.API.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(new { message = ex });
+                return BadRequest(new { message = ex.Message, stacktarce = ex.StackTrace, exception = ex.InnerException });
             }
         }
 

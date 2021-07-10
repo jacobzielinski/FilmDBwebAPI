@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "mssql1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/webapijz/databases/Web_Api_DB",
-      "type": "mssql.azure",
-      "connectionId": "ConnectionString",
-      "secretStore": "AzureKeyVault"
-    },
     "secrets1": {
       "resourceId": null,
       "type": "secrets.user",

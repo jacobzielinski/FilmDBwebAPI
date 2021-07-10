@@ -23,9 +23,7 @@ namespace TT_Education_webAPI.API
         private string _securityKey = null;
         private string _validIssuer = null;
         private string _validAudience = null;
-        private int _userId;
-        private string _userName = null;
-        private string _userEmail = null;
+
 
 
         public Startup(IConfiguration configuration)

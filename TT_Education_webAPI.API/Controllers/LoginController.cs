@@ -46,7 +46,7 @@ namespace TT_Education_webAPI.API.Controllers
                 var key = Encoding.ASCII.GetBytes(_config["SecurityKey"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 { 
-                    Issuer = Config.ValidIssuer,
+                    Issuer = _config["Config: ValidIssuer"],
                     Subject = new ClaimsIdentity(
                         new Claim[] { 
                             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.ToString()),

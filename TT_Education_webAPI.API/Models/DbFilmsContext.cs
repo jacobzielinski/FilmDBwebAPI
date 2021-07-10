@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Design;
-
+using Microsoft.Extensions.Configuration;
 
 namespace TT_Education_webAPI.API.Models
 {
+
     public class DbFilmsContext: DbContext
     {
-        public DbFilmsContext(DbContextOptions<DbFilmsContext> options)
+        private readonly IConfiguration _config;
+
+        public DbFilmsContext(DbContextOptions<DbFilmsContext> options, IConfiguration config)
         : base(options)
         {
+            _config = config; 
         }
 
         public DbSet<FilmModel> FilmModels { get; set; }
@@ -23,7 +27,7 @@ namespace TT_Education_webAPI.API.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.;Database=FilmDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(_config["ConnectionString"]);
             }
         }
     }

@@ -41,6 +41,9 @@ namespace TT_Education_webAPI.API
             _validIssuer = Configuration["Config:ValidIssuer"];
             _validAudience = Configuration["Config:ValidAudience"];
 
+            services.Configure<Config>(Configuration);
+
+
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>

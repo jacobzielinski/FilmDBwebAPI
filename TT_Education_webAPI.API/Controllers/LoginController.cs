@@ -46,13 +46,13 @@ namespace TT_Education_webAPI.API.Controllers
                 var key = Encoding.ASCII.GetBytes(_config["SecurityKey"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 { 
-                    Issuer = _config["Config:ValidIssuer"],
+                    Issuer = _config["ValidIssuer"],
                     Subject = new ClaimsIdentity(
                         new Claim[] { 
                             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.ToString()),
                             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                            new Claim(JwtRegisteredClaimNames.Aud, _config["Config:ValidAudience"]),
+                            new Claim(JwtRegisteredClaimNames.Aud, _config["ValidAudience"]),
                             new Claim(ClaimTypes.Role, "ApiUser") }),
                     Expires = DateTime.UtcNow.AddHours(24),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -78,9 +78,9 @@ namespace TT_Education_webAPI.API.Controllers
             //mock of user database repository here
             return new IdentityUser()
             {
-                Id = _config["IdentityUser:Id"],
-                Email = _config["IdentityUser:Email"],
-                UserName = _config["IdentityUser:UserName"]
+                Id = _config["Id"],
+                Email = _config["Email"],
+                UserName = _config["UserName"]
             };
         }
     }

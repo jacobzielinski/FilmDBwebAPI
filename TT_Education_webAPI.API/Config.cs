@@ -11,5 +11,11 @@ namespace TT_Education_webAPI.API
         public static string ValidIssuer = "";
         public static string ValidAudience = "";
         public static string SecurityKey = "";
+        public static string UserName = "";
+        public static string Id = "";
+        public static string Email = "";
+        public static string ConnectionString = "";
+
+
     }
 }

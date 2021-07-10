@@ -38,8 +38,8 @@ namespace TT_Education_webAPI.API
         public void ConfigureServices(IServiceCollection services)
         {
             _securityKey = Configuration["SecurityKey"];
-            _validIssuer = Configuration["Config:ValidIssuer"];
-            _validAudience = Configuration["Config:ValidAudience"];
+            _validIssuer = Configuration["ValidIssuer"];
+            _validAudience = Configuration["ValidAudience"];
 
             services.Configure<Config>(Configuration);
 

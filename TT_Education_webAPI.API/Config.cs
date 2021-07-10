@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace TT_Education_webAPI.API
 {
+
     public class Config
     {
         public static string ValidIssuer = "";

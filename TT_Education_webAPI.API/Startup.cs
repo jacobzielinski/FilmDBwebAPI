@@ -20,16 +20,29 @@ namespace TT_Education_webAPI.API
 {
     public class Startup
     {
+        private string _securityKey = null;
+        private string _validIssuer = null;
+        private string _validAudience = null;
+        private int _userId;
+        private string _userName = null;
+        private string _userEmail = null;
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            _securityKey = Configuration["SecurityKey"];
+            _validIssuer = Configuration["Config:ValidIssuer"];
+            _validAudience = Configuration["Config:ValidAudience"];
+
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -37,21 +50,24 @@ namespace TT_Education_webAPI.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TT_Education_webAPI.API", Version = "v1" });
             });
 
-            services.AddDbContext<DbFilmsContext>(options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=FilmDB;Trusted_Connection=True;"));
+            services.AddDbContext<DbFilmsContext>(options => options.UseSqlServer("Server=tcp:webapijz.database.windows.net,1433;Initial Catalog=Web_Api_DB;Persist Security Info=False;User ID=jz;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+            //services.AddDbContext<DbFilmsContext>(options => options.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=FilmDB;Trusted_Connection=True;"));
 
             services.AddAuthentication().AddJwtBearer(cfg =>
             {
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
-                    ValidIssuer = Config.ValidIssuer,
+                    ValidIssuer = _validIssuer,
                     ValidateAudience = true,
-                    ValidAudience = Config.ValidAudience,
+                    ValidAudience = _validAudience,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Config.SecurityKey)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityKey)),
 
                 };
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,5 +97,7 @@ namespace TT_Education_webAPI.API
                .AllowAnyHeader()
                .AllowAnyMethod());
         }
+
+
     }
 }

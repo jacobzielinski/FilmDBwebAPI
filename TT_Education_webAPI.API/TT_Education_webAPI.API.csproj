@@ -1,7 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <StartupObject>TT_Education_webAPI.API.Program</StartupObject>
+    <UserSecretsId>6bd99a47-08ef-4cb5-8cd5-6ebbca892b9e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

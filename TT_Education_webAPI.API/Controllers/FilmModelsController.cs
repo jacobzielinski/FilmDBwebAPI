@@ -94,6 +94,7 @@ namespace TT_Education_webAPI.API.Controllers
         public async Task<IActionResult> DeleteFilmModel(int id)
         {
             var filmModel = await _context.FilmModels.FindAsync(id);
+
             if (filmModel == null)
             {
                 return NotFound();

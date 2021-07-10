@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,19 @@ namespace TT_Education_webAPI.API.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+        private readonly IConfiguration _config;
+
+        public LoginController(IConfiguration config)
+        {
+            _config = config;
+
+        }
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate(LoginModel loginModel)
         {
+      
             try
             {
                 if (loginModel == null)
@@ -33,7 +43,7 @@ namespace TT_Education_webAPI.API.Controllers
                     throw new Exception("User or password does not match!");
                 }
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(Config.SecurityKey);
+                var key = Encoding.ASCII.GetBytes(_config["SecurityKey"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 { 
                     Issuer = Config.ValidIssuer,
@@ -42,7 +52,7 @@ namespace TT_Education_webAPI.API.Controllers
                             new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.ToString()),
                             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                            new Claim(JwtRegisteredClaimNames.Aud, Config.ValidAudience),
+                            new Claim(JwtRegisteredClaimNames.Aud, _config["Config:ValidAudience"]),
                             new Claim(ClaimTypes.Role, "ApiUser") }),
                     Expires = DateTime.UtcNow.AddHours(24),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -59,17 +69,18 @@ namespace TT_Education_webAPI.API.Controllers
 
         private IdentityUser GetUser(string login, string password)
         {
-            //total mock
-            if(string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || !login.Equals("my_test_login") || !password.Equals("my_test_password"))
+
+
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || !login.Equals("my_test_login") || !password.Equals("my_test_password"))
             {
                 return null;
             }
             //mock of user database repository here
             return new IdentityUser()
             {
-                Id = "",
-                Email = "",
-                UserName = ""
+                Id = _config["IdentityUser:Id"],
+                Email = _config["IdentityUser:Email"],
+                UserName = _config["IdentityUser:UserName"]
             };
         }
     }
